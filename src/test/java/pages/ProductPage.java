@@ -63,11 +63,9 @@ public class ProductPage extends BasePage {
 
     cartButton.click();
 
-    // Wait until modal becomes visible
     wait.until(
         ExpectedConditions.visibilityOfElementLocated(notificationModal));
 
-    // Wait until modal disappears
     wait.until(
         ExpectedConditions.invisibilityOfElementLocated(notificationModal));
   }
