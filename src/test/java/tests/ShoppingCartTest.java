@@ -27,40 +27,40 @@ public class ShoppingCartTest extends BaseTest {
 
     String searchKeyword = "abc";
 
-    HomePage homePage = new HomePage(driver);
-    LoginPage loginPage = new LoginPage(driver);
-    ProductPage productPage = new ProductPage(driver);
-    CartPage cartPage = new CartPage(driver);
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        ProductPage productPage = new ProductPage(driver);
+        CartPage cartPage = new CartPage(driver);
 
-    homePage.open();
+        homePage.open();
 
-    homePage.clickLogin();
-    loginPage.login(email, password);
+        homePage.clickLogin();
+        loginPage.login(email, password);
 
-    Assert.assertTrue(
-        homePage.isLoggedIn(),
-        "User was not logged in successfully.");
+        Assert.assertTrue(
+                homePage.isLoggedIn(),
+                "User was not logged in successfully.");
 
-    homePage.searchProduct(searchKeyword);
+        homePage.searchProduct(searchKeyword);
 
-    String selectedProduct = productPage.openFirstAvailableProduct();
-    System.out.println("Selected product: " + selectedProduct);
+        String selectedProduct = productPage.openFirstAvailableProduct();
+        System.out.println("Selected product: " + selectedProduct);
 
-    String expectedProductId = productPage.getProductIdFromCurrentUrl();
-    System.out.println("Selected product ID: " + expectedProductId);
+        String expectedProductId = productPage.getProductIdFromCurrentUrl();
+        System.out.println("Selected product ID: " + expectedProductId);
 
-    Assert.assertFalse(
-        expectedProductId.isBlank(),
-        "Product ID should not be blank.");
+        Assert.assertFalse(
+                expectedProductId.isBlank(),
+                "Product ID should not be blank.");
 
-    productPage.addProductToCart();
+        productPage.addProductToCart();
 
-    cartPage.openCart();
+        cartPage.openCart();
 
-    String cartText = cartPage.getCartText();
+        String cartText = cartPage.getCartText();
 
-    Assert.assertTrue(
-        cartText.contains(expectedProductId),
-        "Cart does not contain expected product ID: " + expectedProductId);
-  }
+        Assert.assertTrue(
+                cartText.contains(expectedProductId),
+                "Cart does not contain expected product ID: " + expectedProductId);
+    }
 }

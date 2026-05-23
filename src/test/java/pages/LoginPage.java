@@ -1,8 +1,9 @@
 package pages;
 
-import base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import base.BasePage;
 
 public class LoginPage extends BasePage {
 
