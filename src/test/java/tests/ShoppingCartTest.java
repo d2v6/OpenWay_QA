@@ -13,7 +13,8 @@ import pages.ProductPage;
 public class ShoppingCartTest extends BaseTest {
 
   @Test
-  public void userCanAddOneProductToCart() {
+  public void registeredUserCanAddAvailableProductToCart() {
+
     Dotenv dotenv = Dotenv.configure()
         .ignoreIfMissing()
         .load();
@@ -36,15 +37,21 @@ public class ShoppingCartTest extends BaseTest {
     homePage.clickLogin();
     loginPage.login(email, password);
 
+    Assert.assertTrue(
+        homePage.isLoggedIn(),
+        "User was not logged in successfully.");
+
     homePage.searchProduct(searchKeyword);
 
     String selectedProduct = productPage.openFirstAvailableProduct();
-
     System.out.println("Selected product: " + selectedProduct);
 
-    String productId = productPage.getProductIdFromCurrentUrl();
+    String expectedProductId = productPage.getProductIdFromCurrentUrl();
+    System.out.println("Selected product ID: " + expectedProductId);
 
-    System.out.println("Selected product ID: " + productId);
+    Assert.assertFalse(
+        expectedProductId.isBlank(),
+        "Product ID should not be blank.");
 
     productPage.addProductToCart();
 
@@ -53,7 +60,7 @@ public class ShoppingCartTest extends BaseTest {
     String cartText = cartPage.getCartText();
 
     Assert.assertTrue(
-        cartText.contains(productId),
-        "Cart does not contain expected product ID: " + productId);
+        cartText.contains(expectedProductId),
+        "Cart does not contain expected product ID: " + expectedProductId);
   }
 }
