@@ -42,6 +42,10 @@ public class ShoppingCartTest extends BaseTest {
 
     System.out.println("Selected product: " + selectedProduct);
 
+    String productId = productPage.getProductIdFromCurrentUrl();
+
+    System.out.println("Selected product ID: " + productId);
+
     productPage.addProductToCart();
 
     cartPage.openCart();
@@ -49,7 +53,7 @@ public class ShoppingCartTest extends BaseTest {
     String cartText = cartPage.getCartText();
 
     Assert.assertTrue(
-        cartText.toLowerCase().contains("cart") || cartText.toLowerCase().contains(searchKeyword),
-        "Cart page did not show expected cart/product information.");
+        cartText.contains(productId),
+        "Cart does not contain expected product ID: " + productId);
   }
 }

@@ -71,4 +71,16 @@ public class ProductPage extends BasePage {
     wait.until(
         ExpectedConditions.invisibilityOfElementLocated(notificationModal));
   }
+
+  public String getProductIdFromCurrentUrl() {
+    String currentUrl = driver.getCurrentUrl();
+
+    String[] parts = currentUrl.split("/p/");
+
+    if (parts.length < 2) {
+      throw new RuntimeException("Product ID not found in URL: " + currentUrl);
+    }
+
+    return parts[1].split("/")[0];
+  }
 }
