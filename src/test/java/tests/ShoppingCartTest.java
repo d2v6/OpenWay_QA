@@ -8,55 +8,58 @@ import io.github.cdimascio.dotenv.Dotenv;
 import pages.CartPage;
 import pages.HomePage;
 import pages.LoginPage;
-import pages.ProductPage;
+import pages.ProductDetailPage;
+import pages.ProductsPage;
 
 public class ShoppingCartTest extends BaseTest {
 
-  private static final String SEARCH_KEYWORD = "abc";
-  private static final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+    private static final String SEARCH_KEYWORD = "abc";
+    private static final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-  @Test
-  public void registeredUserCanAddAvailableProductToCart() {
-    String email = dotenv.get("PERIPLUS_EMAIL");
-    String password = dotenv.get("PERIPLUS_PASSWORD");
+    @Test
+    public void registeredUserCanAddAvailableProductToCart() {
 
-    Assert.assertNotNull(email, "PERIPLUS_EMAIL environment variable is missing.");
-    Assert.assertNotNull(password, "PERIPLUS_PASSWORD environment variable is missing.");
+        String email = dotenv.get("PERIPLUS_EMAIL");
+        String password = dotenv.get("PERIPLUS_PASSWORD");
 
-    HomePage homePage = new HomePage(driver);
-    LoginPage loginPage = new LoginPage(driver);
-    ProductPage productPage = new ProductPage(driver);
-    CartPage cartPage = new CartPage(driver);
+        Assert.assertNotNull(email, "PERIPLUS_EMAIL environment variable is missing.");
+        Assert.assertNotNull(password, "PERIPLUS_PASSWORD environment variable is missing.");
 
-    homePage.open();
+        HomePage homePage = new HomePage(driver);
+        LoginPage loginPage = new LoginPage(driver);
+        ProductsPage productsPage = new ProductsPage(driver);
+        ProductDetailPage productDetailPage = new ProductDetailPage(driver);
+        CartPage cartPage = new CartPage(driver);
 
-    homePage.clickLogin();
-    loginPage.login(email, password);
+        homePage.open();
 
-    Assert.assertTrue(
-        homePage.isLoggedIn(),
-        "User was not logged in successfully.");
+        homePage.clickLogin();
+        loginPage.login(email, password);
 
-    homePage.searchProduct(SEARCH_KEYWORD);
+        Assert.assertTrue(
+                homePage.isLoggedIn(),
+                "User was not logged in successfully.");
 
-    String selectedProduct = productPage.openFirstAvailableProduct();
-    System.out.println("Selected product: " + selectedProduct);
+        homePage.searchProduct(SEARCH_KEYWORD);
 
-    String expectedProductId = productPage.getProductIdFromCurrentUrl();
-    System.out.println("Selected product ID: " + expectedProductId);
+        String selectedProduct = productsPage.openFirstAvailableProduct();
+        System.out.println("Selected product: " + selectedProduct);
 
-    Assert.assertFalse(
-        expectedProductId.isBlank(),
-        "Product ID should not be blank.");
+        String expectedProductId = productDetailPage.getProductIdFromCurrentUrl();
+        System.out.println("Selected product ID: " + expectedProductId);
 
-    productPage.addProductToCart();
+        Assert.assertFalse(
+                expectedProductId.isBlank(),
+                "Product ID should not be blank.");
 
-    cartPage.openCart();
+        productDetailPage.addProductToCart();
 
-    String cartText = cartPage.getCartText();
+        cartPage.openCart();
 
-    Assert.assertTrue(
-        cartText.contains(expectedProductId),
-        "Cart does not contain expected product ID: " + expectedProductId);
-  }
+        String cartText = cartPage.getCartText();
+
+        Assert.assertTrue(
+                cartText.contains(expectedProductId),
+                "Cart does not contain expected product ID: " + expectedProductId);
+    }
 }

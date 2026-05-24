@@ -9,15 +9,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import base.BasePage;
 
-public class ProductPage extends BasePage {
+public class ProductsPage extends BasePage {
 
   private final By productCards = By.cssSelector(".single-product");
 
-  private final By addToCartButton = By.cssSelector("button.btn-add-to-cart, button[onclick*='willAddtoCart']");
-
-  private final By notificationModal = By.id("Notification-Modal");
-
-  public ProductPage(WebDriver driver) {
+  public ProductsPage(WebDriver driver) {
     super(driver);
   }
 
@@ -52,33 +48,5 @@ public class ProductPage extends BasePage {
     }
 
     throw new RuntimeException("No available product found.");
-  }
-
-  public void addProductToCart() {
-
-    waitForPreloaderToDisappear();
-
-    WebElement cartButton = wait.until(
-        ExpectedConditions.elementToBeClickable(addToCartButton));
-
-    cartButton.click();
-
-    wait.until(
-        ExpectedConditions.visibilityOfElementLocated(notificationModal));
-
-    wait.until(
-        ExpectedConditions.invisibilityOfElementLocated(notificationModal));
-  }
-
-  public String getProductIdFromCurrentUrl() {
-    String currentUrl = driver.getCurrentUrl();
-
-    String[] parts = currentUrl.split("/p/");
-
-    if (parts.length < 2) {
-      throw new RuntimeException("Product ID not found in URL: " + currentUrl);
-    }
-
-    return parts[1].split("/")[0];
   }
 }
