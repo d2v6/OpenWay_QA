@@ -1,6 +1,6 @@
 # Periplus Shopping Cart Automation
 
-This repository contains an automated UI test for **Scenario B**: testing the shopping cart functionality on [Periplus](https://www.periplus.com/).
+This repository contains an automated UI test for testing the shopping cart functionality on [Periplus](https://www.periplus.com/).
 
 The test is written using **Java**, **Selenium WebDriver**, **TestNG**, and **Maven**. It follows the **Page Object Model** design pattern to keep the test code readable and maintainable.
 
@@ -92,18 +92,6 @@ Create a `.env` file in the project root:
 ```env
 PERIPLUS_EMAIL=your-email@example.com
 PERIPLUS_PASSWORD=your-password
-```
-
-Do not commit `.env` to GitHub.
-
-Make sure `.gitignore` contains:
-
-```gitignore
-.env
-target/
-.idea/
-*.iml
-.DS_Store
 ```
 
 ---
